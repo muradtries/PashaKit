@@ -85,6 +85,11 @@ public class PBCardRowViewNew: PBBaseRowView {
         self.cardImageView.fillSuperview()
         self.chevronView.fillSuperview()
 
+        NSLayoutConstraint.activate([
+            self.issuerLogo.topAnchor.constraint(equalTo: self.cardImageView.topAnchor, constant: 6.0),
+            self.issuerLogo.leftAnchor.constraint(equalTo: self.cardImageView.leftAnchor, constant: 6.0)
+        ])
+
         super.setupConstraints()
     }
 
