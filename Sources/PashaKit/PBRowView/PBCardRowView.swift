@@ -65,7 +65,7 @@ public class PBCardRowViewNew: PBBaseRowView {
 
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        view.image = UIImage(named:"ic_chevron_right")
+        view.setImage(withName: "ic_chevron_right")
         view.contentMode = .scaleAspectFit
 
         view.heightAnchor.constraint(equalToConstant: 12.0).isActive = true
@@ -93,6 +93,10 @@ public class PBCardRowViewNew: PBBaseRowView {
         super.setupConstraints()
     }
 
+    private func setupProperties() {
+        self.titleFont = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
+    }
+
     /// Sets up card for `PBCardRowView`
     ///
     /// - Parameters:
@@ -104,7 +108,6 @@ public class PBCardRowViewNew: PBBaseRowView {
     ///     - `backgroundConfig`- gradient configuration for setting up gradient background for card
     ///
     public func setData(card: PBCardRepresentable) {
-
         self.titleText = card.balance
         self.subtitleText = card.displayName
         self.issuerLogo.image = card.issuerLogoClear

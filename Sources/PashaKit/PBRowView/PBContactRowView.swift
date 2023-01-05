@@ -37,6 +37,153 @@ import UIKit
 /// - `contactInfoStackView` - `UIStackView` instance which holds textual informations with contact's name and their numbers.
 /// - `cardInfoStackView` - `UIStackView` instance which holds issuer logo and masked card number information of contact's available card
 ///
+public class PBContactRowViewNew: PBBaseRowView {
+    /// A boolean value for showing card info
+    ///
+    /// If `showsCardInfo` is set to `true`, contact view will have info view. If card details are not
+    /// entered, this view will empty view while keeping space at the right side of view.
+    ///
+    public var showsCardInfo: Bool = false {
+        didSet {
+            if self.showsCardInfo {
+                self.cardInfoStackView.isHidden = false
+            } else {
+                self.cardInfoStackView.isHidden = true
+            }
+        }
+    }
+
+    /// Changes issuer logo based on its value's prefix.
+    ///
+    /// If first character of card is equal to 4, `issuerLogo` image will be MasterCard logo,
+    /// elsewhere it will be setted with `Visa` logo
+    ///
+    public var cardID: String = "" {
+        didSet {
+            if self.cardID.prefix(1) == "4" {
+                self.issuerLogo.setImage(withName: "ic_master_logo_colored")
+            } else {
+                self.issuerLogo.setImage(withName: "ic_visa_logo_colored")
+            }
+
+            self.cardNumberLabel.text = cardID.lastFourDigits
+        }
+    }
+
+    /// Background color for `letterLabel`
+    ///
+    /// By default `letterLabel` doesn't have any background color.
+    ///
+    public var shortLabelBackgroundColor: UIColor? {
+        didSet {
+            self.letterLabel.backgroundColor =  self.shortLabelBackgroundColor
+        }
+    }
+
+    private lazy var letterLabel: UILabel = {
+        let label = UILabel()
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.backgroundColor = UIColor.Colors.PBGreen
+        label.text = "AB"
+        label.textColor = .white
+        label.textAlignment = .center
+        label.layer.cornerRadius = 20.0
+        label.layer.masksToBounds = true
+
+        label.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+
+        return label
+    }()
+
+    private lazy var cardInfoStackView: UIStackView = {
+        let view = UIStackView()
+
+        self.rightView.addSubview(view)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.axis = .vertical
+        view.alignment = .fill
+        view.spacing = 2.0
+
+        view.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+
+        return view
+    }()
+
+    private lazy var issuerLogo: UIImageView = {
+        let view = UIImageView()
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.contentMode = .scaleAspectFit
+        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+        return view
+    }()
+
+    private lazy var cardNumberLabel: UILabel = {
+        let label = UILabel()
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        label.font = UIFont.systemFont(ofSize: 13.0, weight: .semibold)
+        label.textColor = .darkText
+        label.textAlignment = .center
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+        return label
+    }()
+
+    public override func setupViews() {
+        self.leftView.addSubview(self.letterLabel)
+        self.rightView.backgroundColor = .clear
+
+        if self.showsCardInfo {
+            self.rightView.addSubview(self.cardInfoStackView)
+            self.cardInfoStackView.addArrangedSubview(self.issuerLogo)
+            self.cardInfoStackView.addArrangedSubview(self.cardNumberLabel)
+        } else {
+            self.cardInfoStackView.removeFromSuperview()
+        }
+
+        super.setupViews()
+    }
+
+    public override func setupConstraints() {
+        self.letterLabel.fillSuperview()
+        self.cardInfoStackView.fillSuperview()
+
+        super.setupConstraints()
+    }
+
+    /// Sets the contact and card information into row view components.
+    ///
+    /// - Parameters:
+    ///  - contact: accepts any entity conforming to `PBContactRepresentable` protocol. It holds contact's name, lastName, phoneNumber
+    ///  - cardID: wrapped pan number of card
+    ///
+    public func setData(contact: PBContactRepresentable, cardID: String = "") {
+        self.titleText = contact.name + " " + contact.lastName
+        self.subtitleText = contact.phoneNumber
+        self.letterLabel.text = "\(contact.name.prefix(1))\(contact.lastName.prefix(1))"
+        self.cardID = cardID
+    }
+}
+
+/// `PBContactRowView` is type of `UIView` used for representing contact information
+/// while having an option to show card information.
+///
+/// Contact view has three main parts:
+/// - `letterLabel` - `UILabel` instance which represents contact's first letters of name and last name with circular background
+/// - `contactInfoStackView` - `UIStackView` instance which holds textual informations with contact's name and their numbers.
+/// - `cardInfoStackView` - `UIStackView` instance which holds issuer logo and masked card number information of contact's available card
+///
 open class PBContactRowView: UIView {
 
     /// A boolean value for showing card info
