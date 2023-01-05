@@ -46,7 +46,7 @@ public class PBContactRowViewNew: PBBaseRowView {
     public var showsCardInfo: Bool = false {
         didSet {
             if self.showsCardInfo != oldValue {
-                self.rightView.addSubview(self.cardInfoStackView)
+                self.setupViews()
             }
         }
     }
@@ -85,7 +85,6 @@ public class PBContactRowViewNew: PBBaseRowView {
 
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         label.backgroundColor = UIColor.Colors.PBGreen
-        label.text = "AB"
         label.textColor = .white
         label.textAlignment = .center
         label.layer.cornerRadius = 20.0
