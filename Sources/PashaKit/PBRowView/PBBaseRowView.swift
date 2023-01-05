@@ -110,10 +110,14 @@ open class PBBaseRowView: UIView, PBSkeletonable {
     public var contentViewInsets: UIEdgeInsets = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0) {
         didSet {
             if self.contentViewInsets != oldValue {
-                self.setupConstraints()
+                self.setupContentViewConstraints()
             }
         }
     }
+
+    // -MARK: Private Properties
+
+    private var contentViewConstraints: [NSLayoutConstraint] = []
 
     ///  The arranger for title and subtile labels.
     ///
@@ -311,12 +315,7 @@ open class PBBaseRowView: UIView, PBSkeletonable {
     public func setupConstraints() {
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        NSLayoutConstraint.activate([
-            self.contentView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.contentViewInsets.top),
-            self.contentView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: self.contentViewInsets.left),
-            self.contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.contentViewInsets.bottom),
-            self.contentView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -self.contentViewInsets.right)
-        ])
+        self.setupContentViewConstraints()
 
         if self.titleLabel.superview != nil {
             NSLayoutConstraint.activate([
@@ -337,6 +336,19 @@ open class PBBaseRowView: UIView, PBSkeletonable {
         }
 
         self.layoutIfNeeded()
+    }
+
+    private func setupContentViewConstraints() {
+        NSLayoutConstraint.deactivate(self.contentViewConstraints)
+
+        self.contentViewConstraints = [
+            self.contentView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.contentViewInsets.top),
+            self.contentView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: self.contentViewInsets.left),
+            self.contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.contentViewInsets.bottom),
+            self.contentView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -self.contentViewInsets.right)
+        ]
+
+        NSLayoutConstraint.activate(self.contentViewConstraints)
     }
 
     open override func layoutSubviews() {
