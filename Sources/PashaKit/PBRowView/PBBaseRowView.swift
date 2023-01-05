@@ -107,6 +107,14 @@ open class PBBaseRowView: UIView, PBSkeletonable {
         }
     }
 
+    public var contentViewInsets: UIEdgeInsets = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0) {
+        didSet {
+            if self.contentViewInsets != oldValue {
+                self.setupConstraints()
+            }
+        }
+    }
+
     ///  The arranger for title and subtile labels.
     ///
     ///  When row view is created, `subtitleLabel` sits under `titleLabel`.
@@ -304,10 +312,10 @@ open class PBBaseRowView: UIView, PBSkeletonable {
         self.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            self.contentView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8.0),
-            self.contentView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16.0),
-            self.contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8.0),
-            self.contentView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16.0)
+            self.contentView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.contentViewInsets.top),
+            self.contentView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: self.contentViewInsets.left),
+            self.contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.contentViewInsets.bottom),
+            self.contentView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -self.contentViewInsets.right)
         ])
 
         if self.titleLabel.superview != nil {
