@@ -57,7 +57,7 @@ public class PBRoundedView: UIView {
     /// By default rounded view will be created as circle. However if you need more customized style
     /// set `roundedRect(cornerRadius: CGFloat)` case with proper `cornerRadius`
     ///
-    public var style: Style = .circle {
+    public var style: CornerStyle = .circle {
         didSet {
             self.updateUI()
         }
@@ -103,7 +103,7 @@ public class PBRoundedView: UIView {
     ///  - icon: UIImage which will be used for  as view's `icon`
     ///  - style: Style of rounded view. If not specified, `circle` will be set.
     ///
-    public convenience init(icon: UIImage?, style: Style = .circle) {
+    public convenience init(icon: UIImage?, style: CornerStyle = .circle) {
         self.init(frame: .zero)
 
         self.style = style

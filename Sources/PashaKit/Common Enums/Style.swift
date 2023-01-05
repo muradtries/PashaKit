@@ -29,12 +29,12 @@
 
 import UIKit
 
-/// Style for view
+/// Corner style for view
 ///
 /// This enum right now is used by `PBRoundedView` for configuring its shape.
 /// However since it's public, you can use it anywhere you want to customize your view.
 ///
-public enum Style {
+public enum CornerStyle {
     ///
     /// Used for making rounded corners. Implementation depends on you
     ///

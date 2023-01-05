@@ -29,6 +29,84 @@
 
 import UIKit
 
+public class PBCardRowViewNew: PBBaseRowView {
+    private lazy var cardImageView: UIImageView = {
+        let view = UIImageView()
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.layer.cornerRadius = 6.0
+        view.layer.masksToBounds = true
+        view.backgroundColor = .systemOrange
+
+        view.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 60.0).isActive = true
+
+        return view
+    }()
+
+    private lazy var issuerLogo: UIImageView = {
+        let view = UIImageView()
+
+        self.cardImageView.addSubview(view)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.contentMode = .scaleAspectFit
+
+        view.heightAnchor.constraint(equalToConstant: 12.0).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 18.0).isActive = true
+
+        return view
+    }()
+
+    private lazy var chevronView: UIImageView = {
+        let view = UIImageView()
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.image = UIImage(named:"ic_chevron_right")
+        view.contentMode = .scaleAspectFit
+
+        view.heightAnchor.constraint(equalToConstant: 12.0).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 12.0).isActive = true
+
+        return view
+    }()
+
+    public override func setupViews() {
+        self.leftView.addSubview(self.cardImageView)
+        self.rightView.addSubview(self.chevronView)
+
+        super.setupViews()
+    }
+
+    public override func setupConstraints() {
+        self.cardImageView.fillSuperview()
+        self.chevronView.fillSuperview()
+
+        super.setupConstraints()
+    }
+
+    /// Sets up card for `PBCardRowView`
+    ///
+    /// - Parameters:
+    ///   - card: accepts any entity conforming to `PBContactRepresentable` protocol. It holds all information for settin up
+    ///  row view. These include:
+    ///     - `balance` - balance of card
+    ///     - `displayName`- display name of card
+    ///     - `issuerLogoClear`- logo of issuer
+    ///     - `backgroundConfig`- gradient configuration for setting up gradient background for card
+    ///
+    public func setData(card: PBCardRepresentable) {
+
+        self.titleText = card.balance
+        self.subtitleText = card.displayName
+        self.issuerLogo.image = card.issuerLogoClear
+        self.cardImageView.setGradientBackground(gradientConfig: card.backgroundConfig)
+    }
+}
+
 ///
 /// `PBCardRowView` is a type of `UIView` used for representing customers'
 /// cards.

@@ -53,14 +53,13 @@ import UIKit
 /// 
 open class PBRowView: UIView, PBSkeletonable {
 
-    /// Checker for whether the row view is new.
+    /// Checks for whether the row view is new.
     ///
     /// This enum was made our mobile design system in mind. Since in our mobile app
     /// there are some feature which are introduced newly and displayed as row view
     /// we have added an option for setting it.
     ///
     public enum IsNew {
-        /// 
         case `true`(localizableTitle: String)
         case `false`
     }
@@ -141,7 +140,7 @@ open class PBRowView: UIView, PBSkeletonable {
 
     /// Sets the font for `subtitleLabel`.
     ///
-    /// By default its font size is `15.0`.
+    /// By default its font size is `13.0`.
     ///
     public var subtitleFont: UIFont? {
         didSet {
@@ -163,7 +162,7 @@ open class PBRowView: UIView, PBSkeletonable {
     ///
     /// By default its value is `circle`.
     ///
-    public var leftIconStyle: Style = .circle {
+    public var leftIconStyle: CornerStyle = .circle {
         didSet {
             self.setupViews()
         }
@@ -446,21 +445,6 @@ open class PBRowView: UIView, PBSkeletonable {
         self.titleLabel.text = titleText
         self.subtitleLabel.text = subtitleText
         self.isChevronIconVisible = isChevronIconVisible
-
-        self.setupViews()
-    }
-
-    /// Sets data for a row view.
-    ///
-    /// - Parameters:
-    ///    - rowView: Protocol for representing `rowView`.
-    ///    - isNew: Decides whether isNewView should be added.
-    ///
-    public func setDataFor(rowView: PBRowViewRepresentable, isNew: IsNew = .false) {
-        self.titleText = rowView.data.titleText
-        self.subtitleText = rowView.data.subtitleText
-        self.rightIconWrapperView.isHidden = !rowView.data.isRightIconVisible
-        self.setupNewView(state: isNew)
 
         self.setupViews()
     }

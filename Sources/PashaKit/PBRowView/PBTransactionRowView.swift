@@ -34,7 +34,7 @@ import UIKit
 ///
 /// **View Structure**
 ///
-/// `PBRowView` packs up its contents in its `primaryStackView`. Primary stack view consists of
+/// `PBTransactionRowView` packs up its contents in its `primaryStackView`. Primary stack view consists of
 /// - `categoryImage`. This view is used for holding payment category icon.
 /// - `transactionInfoContainerView`. This view holds 4 `UILabel` views which are:
 ///    - `merchantLabel`- used for displaying merchant name
@@ -88,7 +88,7 @@ public class PBTransactionRowView: UIView, PBSkeletonable {
     ///
     /// By default its value is `circle`.
     ///
-    public var leftIconStyle: Style = .roundedRect(cornerRadius: 8.0) {
+    public var leftIconStyle: CornerStyle = .roundedRect(cornerRadius: 8.0) {
         didSet {
             switch self.leftIconStyle {
             case .roundedRect(cornerRadius: let cornerRadius):
