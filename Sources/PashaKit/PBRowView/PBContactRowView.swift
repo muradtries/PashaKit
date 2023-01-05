@@ -45,10 +45,8 @@ public class PBContactRowViewNew: PBBaseRowView {
     ///
     public var showsCardInfo: Bool = false {
         didSet {
-            if self.showsCardInfo {
-                self.cardInfoStackView.isHidden = false
-            } else {
-                self.cardInfoStackView.isHidden = true
+            if self.showsCardInfo != oldValue {
+                self.rightView.addSubview(self.cardInfoStackView)
             }
         }
     }
@@ -142,6 +140,7 @@ public class PBContactRowViewNew: PBBaseRowView {
 
     public override func setupViews() {
         self.leftView.addSubview(self.letterLabel)
+        self.backgroundColor = .clear
         self.rightView.backgroundColor = .clear
 
         if self.showsCardInfo {
@@ -160,6 +159,10 @@ public class PBContactRowViewNew: PBBaseRowView {
         self.cardInfoStackView.fillSuperview()
 
         super.setupConstraints()
+    }
+
+    private func setupProperties() {
+        self.titleFont = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
     }
 
     /// Sets the contact and card information into row view components.
